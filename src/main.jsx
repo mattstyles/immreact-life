@@ -32,12 +32,19 @@ class App extends React.Component {
         })
     }
 
+    onSingle() {
+        appStore.tick({
+            single: true
+        })
+    }
+
     render() {
         return (
             <div className="container">
                 <Grid cells={ appStore.cursor() } />
                 <button onClick={ this.onStart.bind( this ) }>Start</button>
                 <button onClick={ this.onStop.bind( this ) }>Stop</button>
+                <button onClick={ this.onSingle.bind( this ) }>Single Generation</button>
             </div>
         )
     }

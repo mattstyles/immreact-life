@@ -1,5 +1,5 @@
 
 export default {
-    GRID_SIZE: 4,
-    CELL_SIZE: 56
+    GRID_SIZE: 20,
+    CELL_SIZE: 32
 }
