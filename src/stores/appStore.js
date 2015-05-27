@@ -17,7 +17,7 @@ class AppStore {
     constructor() {
         this[ _state ] = 'appStore'
 
-        // Generates initial grid of cells
+        // Generates initial grid of cells - seed
         let grid = range( 0, CONFIG.GRID_SIZE, 0 ).map( row => {
             return range( 0, CONFIG.GRID_SIZE, 0 ).map( cell => false )
         })
@@ -60,37 +60,82 @@ class AppStore {
         return appState.state.cursor( this[ _state ] )
     }
 
-    tick() {
+    tick( options ) {
+        let opts = Object.assign({
+            single: false
+        }, options )
         let grid = this.cursor().toJS()
 
-        grid.forEach( ( row, i ) => {
-            row.forEach( ( cell, j ) => {
-                // console.log( cell, i, j, grid )
-                this.tickCell( cell, i, j, grid )
+        // Map from old grid to new grid
+        // Pass the old grid to the tickCell function as rules need
+        // the entire old grid state
+        this.updateGrid( grid.map( ( row, i ) => {
+            return row.map( ( cell, j ) => {
+                return this.tickCell({
+                    x: i,
+                    y: j,
+                    value: cell
+                }, grid )
             })
-        })
+        }) )
 
-        this.frame = raf.request( this.tick.bind( this ) )
+        if ( !opts.single ) {
+            this.frame = raf.request( this.tick.bind( this ) )
+        }
     }
 
-    tickCell( cell, i, j, grid ) {
+    tickCell( cell, grid ) {
         let count = 0
 
         // Count up alive neighbours
-        range( i - 1, i + 1 ).forEach( x => {
-            range( j - 1, j + 1 ).forEach( y => {
+        range( cell.x - 1, cell.x + 2 ).forEach( x => {
+            range( cell.y - 1, cell.y + 2 ).forEach( y => {
+
                 // Check out of bounds
                 if ( x < 0 || y < 0 || x > CONFIG.GRID_SIZE - 1 || y > CONFIG.GRID_SIZE - 1 ) {
                     return
                 }
 
-                if ( grid[ x ][ y ] > 0 ) {
+                // Check self
+                if ( x === cell.x && y === cell.y ) {
+                    return
+                }
+
+                // If the grid is true then its alive so count it up
+                if ( grid[ x ][ y ] ) {
                     count++
                 }
             })
         })
 
-        console.log( count )
+        // Alive
+        if ( cell.value ) {
+            // Under-population - die
+            if ( count < 2 ) {
+                return false
+            }
+
+            // Stable
+            if ( count >= 2 && count <= 3 ) {
+                return true
+            }
+
+            // Over-population
+            if ( count > 3 ) {
+                return false
+            }
+
+            throw new Error( 'appStore::tickCell - this should be unreachable' )
+        }
+
+        // Dead
+        // Reproduction
+        if ( count === 3 ) {
+            return true
+        }
+
+        // This should be false, denoting a dead cell
+        return cell.value
     }
 
     // No error checking
@@ -98,6 +143,12 @@ class AppStore {
         this.cursor().update( cursor => {
             let grid = this.cursor().toJS()
             grid[ cell.x ][ cell.y ] = cell.value
+            return cursor.merge( grid )
+        })
+    }
+
+    updateGrid( grid ) {
+        this.cursor().update( cursor => {
             return cursor.merge( grid )
         })
     }
