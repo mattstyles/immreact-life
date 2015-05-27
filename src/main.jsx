@@ -9,6 +9,11 @@ import dispatcher from './dispatchers/appDispatcher'
 
 import Grid from 'grid/grid'
 
+
+// @TODO remove
+window.store = appStore
+
+
 class App extends React.Component {
     constructor() {
         super()
@@ -17,7 +22,6 @@ class App extends React.Component {
     render() {
         return (
             <div className="container">
-                <h1>Hello React</h1>
                 <Grid cells={ appStore.cursor() } />
             </div>
         )
@@ -25,6 +29,7 @@ class App extends React.Component {
 }
 
 function render() {
+    console.log( 'main:render' )
     React.render( <App />, document.body )
 }
 

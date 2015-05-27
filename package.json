@@ -51,6 +51,7 @@
     "flux": "^2.0.3",
     "immreact": "0.0.1",
     "immstruct": "^1.4.1",
+    "lodash.range": "^3.0.0",
     "normalize.css": "^3.0.3",
     "react": "^0.13.3",
     "react-pure-render": "^1.0.1",
