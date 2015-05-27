@@ -12,7 +12,13 @@ export default class Grid extends React.Component {
         let grid = this.props.cells.toJS()
         let items = grid.map( ( row, i ) => {
             return row.map( ( cell, j ) => {
-                return <Cell top={ i * CONFIG.CELL_SIZE } left={ j * CONFIG.CELL_SIZE } value={ cell } />
+                return (
+                    <Cell
+                        x={ i }
+                        y={ j }
+                        value={ cell }
+                    />
+                )
             })
         })
 

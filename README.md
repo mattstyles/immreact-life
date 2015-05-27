@@ -1,5 +1,5 @@
 
-# immutable-genetics
+# immutable-life
 
 > POC for immutable data and react
 
