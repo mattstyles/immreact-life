@@ -2,9 +2,12 @@
 import './utils/font'
 
 import React from 'react'
+import { appState } from 'immreact'
 
+import appStore from 'stores/appStore'
 import dispatcher from './dispatchers/appDispatcher'
-import MyComponent from 'myComponent'
+
+import Grid from 'grid/grid'
 
 class App extends React.Component {
     constructor() {
@@ -15,10 +18,16 @@ class App extends React.Component {
         return (
             <div className="container">
                 <h1>Hello React</h1>
-                <MyComponent />
+                <Grid cells={ appStore.cursor() } />
             </div>
         )
     }
 }
 
-React.render( <App />, document.body )
+function render() {
+    React.render( <App />, document.body )
+}
+
+render()
+
+appState.state.on( 'swap', render )
