@@ -1,11 +1,16 @@
 
 import { appState } from 'immreact'
 import range from 'lodash.range'
+import AnimationFrame from 'animation-frame'
+
 import CONFIG from 'constants/config'
 import ACTIONS from 'constants/actions'
 import dispatcher from 'dispatchers/appDispatcher'
 
 var _state = Symbol( 'state' )
+
+
+var raf = new AnimationFrame( 20 )
 
 
 class AppStore {
@@ -19,12 +24,34 @@ class AppStore {
 
         appState.create( this[ _state ], grid )
 
+        // Next animation frame
+        this.frame = null
+
         dispatcher.register( dispatch => {
             if ( dispatch.type === ACTIONS.UPDATE_CELL ) {
-                console.log( 'updating' )
                 this.updateCell( Object.assign( dispatch.payload, {
                     value: !dispatch.payload.value
                 }))
+
+                return
+            }
+
+            if ( dispatch.type === ACTIONS.START ) {
+                if ( this.frame ) {
+                    return
+                }
+
+                this.tick()
+                return
+            }
+
+            if ( dispatch.type === ACTIONS.STOP ) {
+                if ( !this.frame ) {
+                    return
+                }
+
+                raf.cancel( this.frame )
+                this.frame = null
             }
         })
     }
@@ -42,11 +69,14 @@ class AppStore {
                 this.tickCell( cell, i, j, grid )
             })
         })
+
+        this.frame = raf.request( this.tick.bind( this ) )
     }
 
     tickCell( cell, i, j, grid ) {
         let count = 0
 
+        // Count up alive neighbours
         range( i - 1, i + 1 ).forEach( x => {
             range( j - 1, j + 1 ).forEach( y => {
                 // Check out of bounds
