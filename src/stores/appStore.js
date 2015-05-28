@@ -10,7 +10,7 @@ import dispatcher from 'dispatchers/appDispatcher'
 var _state = Symbol( 'state' )
 
 
-var raf = new AnimationFrame( 20 )
+var raf = new AnimationFrame( 5 )
 
 
 class AppStore {

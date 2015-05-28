@@ -9,6 +9,7 @@ import dispatcher from './dispatchers/appDispatcher'
 import ACTIONS from 'constants/actions'
 
 import Grid from 'grid/grid'
+import Menu from 'menu/menu'
 
 
 // @TODO remove
@@ -41,17 +42,16 @@ class App extends React.Component {
     render() {
         return (
             <div className="container">
-                <Grid cells={ appStore.cursor() } />
-                <button onClick={ this.onStart.bind( this ) }>Start</button>
-                <button onClick={ this.onStop.bind( this ) }>Stop</button>
-                <button onClick={ this.onSingle.bind( this ) }>Single Generation</button>
+                <Menu />
+                <div className="main">
+                    <Grid cells={ appStore.cursor() } />
+                </div>
             </div>
         )
     }
 }
 
 function render() {
-    console.log( 'main:render' )
     React.render( <App />, document.body )
 }
 
