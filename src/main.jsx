@@ -52,6 +52,7 @@ class App extends React.Component {
 }
 
 function render() {
+    console.log( 'main::render' )
     React.render( <App />, document.body )
 }
 

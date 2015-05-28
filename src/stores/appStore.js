@@ -140,10 +140,9 @@ class AppStore {
 
     // No error checking
     updateCell( cell ) {
-        this.cursor().update( cursor => {
-            let grid = this.cursor().toJS()
-            grid[ cell.x ][ cell.y ] = cell.value
-            return cursor.merge( grid )
+        appState.state.cursor( [this[ _state ], cell.x, cell.y ] ).update( cursor => {
+            // return cell.value
+            return !cursor
         })
     }
 
