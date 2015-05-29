@@ -23,7 +23,8 @@
     "prebuild": "npm run clean",
     "build": "npm run make:assets && npm run make:html && npm run make:polyfill && npm run build:scripts && npm run build:styles",
     "premake": "npm run clean",
-    "make": "NODE_ENV=prod npm run make:assets && npm run make:html && npm run make:polyfill && npm run make:scripts && npm run make:styles"
+    "make": "NODE_ENV=prod npm run make:assets && npm run make:html && npm run make:polyfill && npm run make:scripts && npm run make:styles",
+    "ghpages": "cp -r ./dist/* ./ && rm -rf ./dist"
   },
   "keywords": [
     "yeoman",
