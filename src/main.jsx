@@ -11,6 +11,24 @@ import ACTIONS from 'constants/actions'
 import Grid from 'grid/grid'
 import Menu from 'menu/menu'
 
+import Immutable from 'immutable'
+import Stats from 'stats.js'
+let stats = new Stats()
+
+stats.setMode( 0 )
+stats.domElement.style.position = 'absolute'
+stats.domElement.style.bottom = '0px'
+stats.domElement.style.right = '0px'
+stats.domElement.style.transform = 'scale(4) translate( -50%, -50% )'
+
+
+var map1 = Immutable.Map( {a:1, b: { c:2,d:3 } } )
+var map2 = Immutable.Map( {a:1, b:{c:2,d:3}})
+var map3 = Immutable.Map( { a: 1, b: 2 } )
+var map4 = Immutable.Map( { a: 1, b: 2 } )
+console.log( Immutable.is( map1, map2 ) )
+console.log( Immutable.is( map3, map4 ) )
+
 
 // @TODO remove
 window.store = appStore
@@ -20,6 +38,10 @@ window.appState = appState
 class App extends React.Component {
     constructor() {
         super()
+    }
+
+    componentDidMount() {
+        document.body.appendChild( stats.domElement )
     }
 
     onStart() {
@@ -42,6 +64,8 @@ class App extends React.Component {
 
     // @TODO the deref here keeps pure rendering working
     render() {
+        console.log( 'main::render' )
+
         return (
             <div className="container">
                 <Menu running={ appStore.cursor([ 'app', 'running' ]).deref() } />
@@ -56,8 +80,21 @@ class App extends React.Component {
     }
 }
 
-function render() {
-    React.render( <App />, document.body )
+function render( o, n, k ) {
+    if ( !o ) {
+        React.render( <App />, document.body )
+    }
+
+    stats.begin()
+
+    if ( o && n ) {
+        // Only render if a change really happened
+        if ( !Immutable.is( o.getIn( k ), n.getIn( k ) ) ) {
+            React.render( <App />, document.body )
+        }
+    }
+
+    stats.end()
 }
 
 render()

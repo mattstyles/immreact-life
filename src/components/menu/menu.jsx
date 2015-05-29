@@ -100,8 +100,6 @@ export default class Menu extends React.Component {
     }
 
     render() {
-        console.log( 'menu::render' )
-
         return (
             <nav className="Menu">
                 <header>
