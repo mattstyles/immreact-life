@@ -1,6 +1,6 @@
 {
   "name": "immutable-life",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "POC for immutable data and react",
   "scripts": {
     "prepublish": "npm run build",
