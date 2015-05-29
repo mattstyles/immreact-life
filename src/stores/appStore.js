@@ -7,12 +7,20 @@ import CONFIG from 'constants/config'
 import ACTIONS from 'constants/actions'
 import dispatcher from 'dispatchers/appDispatcher'
 
-var _state = Symbol( 'state' )
+
+// Private symbol to keep prying fingers from altering state without going
+// through the dispatcher or this store
+var _state = Symbol( 'appStore' )
 
 
+// Animation frame helper to handles game ticks
 var raf = new AnimationFrame( CONFIG.FRAME_RATE )
 
 
+/**
+ * Not only a data store, the state of the CA's held within grid are also
+ * manipulated within AppStore
+ */
 class AppStore {
     constructor() {
         this[ _state ] = 'appStore'
@@ -65,6 +73,10 @@ class AppStore {
      * @param args <Array>|<String> specify structure keyPath to grab
      */
     cursor( args ) {
+        if ( !args ) {
+            return appState.state.cursor( this._state )
+        }
+
         if ( typeof args === 'string' ) {
             return appState.state.cursor( [ this[ _state ], args ] )
         }
@@ -74,6 +86,9 @@ class AppStore {
 
     /**
      * Handles a single generation update for all cells
+     * Unless specified will trigger continuous automation via raf
+     * @param options <Object>
+     *   single <Boolean> if true will run only once i.e. one single generation update
      */
     tick( options ) {
         let opts = Object.assign({

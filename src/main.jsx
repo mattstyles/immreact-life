@@ -14,6 +14,7 @@ import Menu from 'menu/menu'
 
 // @TODO remove
 window.store = appStore
+window.appState = appState
 
 
 class App extends React.Component {
