@@ -8,9 +8,7 @@ export default class Grid extends React.Component {
     }
 
     render() {
-
-        let grid = this.props.cells.toJS()
-        let items = grid.map( ( row, i ) => {
+        let cells = this.props.cells.toJS().map( ( row, i ) => {
             return row.map( ( cell, j ) => {
                 return (
                     <Cell
@@ -29,7 +27,7 @@ export default class Grid extends React.Component {
 
         return (
             <div className="Grid" style={ style }>
-                { items }
+                { cells }
             </div>
         )
     }

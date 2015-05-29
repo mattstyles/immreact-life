@@ -44,7 +44,7 @@ class App extends React.Component {
             <div className="container">
                 <Menu />
                 <div className="main">
-                    <Grid cells={ appStore.cursor() } />
+                    <Grid cells={ appStore.cursor( 'grid' ) } />
                 </div>
             </div>
         )

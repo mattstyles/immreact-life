@@ -22,11 +22,15 @@ class AppStore {
             return range( 0, CONFIG.GRID_SIZE, 0 ).map( cell => false )
         })
 
-        appState.create( this[ _state ], grid )
+        appState.create( this[ _state ], {
+            grid: grid,
+            app: {}
+        })
 
         // Next animation frame
         this.frame = null
 
+        // Handles app actions
         dispatcher.register( dispatch => {
             if ( dispatch.type === ACTIONS.UPDATE_CELL ) {
                 this.updateCell( Object.assign( dispatch.payload, {
@@ -56,15 +60,27 @@ class AppStore {
         })
     }
 
-    cursor() {
-        return appState.state.cursor( this[ _state ] )
+    /**
+     * Grabs a fresh cursor to the data structure
+     * @param args <Array>|<String> specify structure keyPath to grab
+     */
+    cursor( args ) {
+        if ( typeof args === 'string' ) {
+            return appState.state.cursor( [ this[ _state ], args ] )
+        }
+
+        return appState.state.cursor( [ this[ _state ], ...args ] )
     }
 
+    /**
+     * Handles a single generation update for all cells
+     */
     tick( options ) {
         let opts = Object.assign({
             single: false
         }, options )
-        let grid = this.cursor().toJS()
+
+        let grid = this.cursor( 'grid' ).toJS()
 
         // Map from old grid to new grid
         // Pass the old grid to the tickCell function as rules need
@@ -84,6 +100,9 @@ class AppStore {
         }
     }
 
+    /**
+     * Implements the CA rules
+     */
     tickCell( cell, grid ) {
         let count = 0
 
@@ -138,16 +157,18 @@ class AppStore {
         return cell.value
     }
 
+
     // No error checking
     updateCell( cell ) {
-        appState.state.cursor( [this[ _state ], cell.x, cell.y ] ).update( cursor => {
+        this.cursor( [ 'grid', cell.x, cell.y ] ).update( cursor => {
             // return cell.value
             return !cursor
         })
     }
 
+
     updateGrid( grid ) {
-        this.cursor().update( cursor => {
+        this.cursor( 'grid' ).update( cursor => {
             return cursor.merge( grid )
         })
     }
