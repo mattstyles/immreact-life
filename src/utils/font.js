@@ -2,6 +2,6 @@ import 'webfontloader'
 
 WebFont.load({
     google: {
-        families: [ 'Open+Sans:400,600:latin' ]
+        families: [ 'Lato:300,400,600:latin' ]
     }
 })
