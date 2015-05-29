@@ -104,16 +104,22 @@ export default class Menu extends React.Component {
 
         return (
             <nav className="Menu">
-                <h2 className="Menu-title">
-                    <span className="Menu-titleTop">Immutable</span>
-                    <span className="Menu-titleBottom">Life</span>
-                </h2>
+                <header>
+                    <h2 className="Menu-title">
+                        <span className="Menu-titleTop">Immutable</span>
+                        <span className="Menu-titleBottom">Life</span>
+                    </h2>
+                </header>
                 <MenuRunningIndicator active={ this.props.running } />
                 <MenuButtonGroup>
                     <MenuButton text="Start" action={ ACTIONS.START } />
                     <MenuButton text="Stop" action={ ACTIONS.STOP } />
                     <MenuButton text="Single Generation" action={ this.onSingle.bind( this ) } />
                 </MenuButtonGroup>
+                <footer className="Menu-footer">
+                    <p>Cellular automata example using <a href="https://github.com/facebook/immutable-js">immutable</a> data and <a href="https://github.com/facebook/react">React</a>. It’s not a particularly appropriate fit and there are plenty of optimisations that can be made.</p>
+                    <p>Fun to <a href="https://github.com/mattstyles/immreact-life">hack</a> on though.</p>
+                </footer>
             </nav>
         )
     }

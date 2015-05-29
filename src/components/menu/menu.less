@@ -1,4 +1,5 @@
 .Menu {
+    position: relative;
     width: 240px;
     background: @--color-black15;
     -webkit-font-smoothing: subpixel-antialiased;
@@ -76,4 +77,23 @@
     display: block;
     font-size: 44px;
     line-height: 36px;
+}
+
+.Menu-footer {
+    position: absolute;
+    bottom: 12px;
+    padding: 8px;
+
+    p {
+        color: @--color-black40;
+        font-size: 13px;
+        line-height: 17px;
+        font-weight: 300;
+    }
+
+    a {
+        text-transform: none;
+        text-decoration: none;
+        color: @--color-white40;
+    }
 }
