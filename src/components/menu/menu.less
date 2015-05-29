@@ -53,3 +53,27 @@
 .Menu-indicator--isActive {
     background: @--color-green;
 }
+
+.Menu-title {
+    text-align: center;
+    color: @--color-black40;
+    text-transform: uppercase;
+    padding: 26px 0 26px;
+    margin: 20px 0 0 0;
+    transition: transform .177s ease-out;
+
+    &:hover {
+        transform: rotate( 360deg );
+    }
+}
+
+.Menu-titleTop {
+    display:block;
+    font-size: 15px;
+    letter-spacing: -1px;
+}
+.Menu-titleBottom {
+    display: block;
+    font-size: 44px;
+    line-height: 36px;
+}

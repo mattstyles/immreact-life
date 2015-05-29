@@ -18,7 +18,7 @@ class MenuRunningIndicator extends React.Component {
             'u-stretchX': true,
             'Menu-indicator--isActive': this.props.active
         })
-        
+
         return (
             <div className={ styles }></div>
         )
@@ -104,6 +104,10 @@ export default class Menu extends React.Component {
 
         return (
             <nav className="Menu">
+                <h2 className="Menu-title">
+                    <span className="Menu-titleTop">Immutable</span>
+                    <span className="Menu-titleBottom">Life</span>
+                </h2>
                 <MenuRunningIndicator active={ this.props.running } />
                 <MenuButtonGroup>
                     <MenuButton text="Start" action={ ACTIONS.START } />
