@@ -6,6 +6,31 @@ import dispatcher from 'dispatchers/appDispatcher'
 import ACTIONS from 'constants/actions'
 
 
+class MenuButtonGroup extends React.Component {
+    constructor( props ) {
+        super( props )
+    }
+
+    render() {
+        let children = this.props.children.map( child => {
+            return (
+                <li
+                    key={ child.props.text }
+                    className="Menu-btnGroup-item">
+                    { child }
+                </li>
+            )
+        })
+
+        return (
+            <ul className="Menu-btnGroup">
+                { children }
+            </ul>
+        )
+    }
+}
+
+
 class MenuButton extends React.Component {
     static propTypes = {
         action: React.PropTypes.oneOfType([
@@ -31,7 +56,7 @@ class MenuButton extends React.Component {
     render() {
         return (
             <button
-                className="Menu-btn"
+                className="Menu-btn u-stretchX"
                 onClick={ this.onClick.bind( this ) }
             >{ this.props.text }</button>
         )
@@ -53,9 +78,11 @@ export default class Menu extends React.Component {
     render() {
         return (
             <nav className="Menu">
-                <MenuButton text="Start" action={ ACTIONS.START } />
-                <MenuButton text="Stop" action={ ACTIONS.STOP } />
-                <MenuButton text="Single Generation" action={ this.onSingle.bind( this ) } />
+                <MenuButtonGroup>
+                    <MenuButton text="Start" action={ ACTIONS.START } />
+                    <MenuButton text="Stop" action={ ACTIONS.STOP } />
+                    <MenuButton text="Single Generation" action={ this.onSingle.bind( this ) } />
+                </MenuButtonGroup>
             </nav>
         )
     }
