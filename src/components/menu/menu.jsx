@@ -1,9 +1,29 @@
 
 import React from 'react'
+import pureUpdate from 'react-pure-render/function'
+import classnames from 'classnames'
 
 import appStore from 'stores/appStore'
 import dispatcher from 'dispatchers/appDispatcher'
 import ACTIONS from 'constants/actions'
+
+class MenuRunningIndicator extends React.Component {
+    constructor( props ) {
+        super( props )
+    }
+
+    render() {
+        let styles = classnames({
+            'Menu-indicator': true,
+            'u-stretchX': true,
+            'Menu-indicator--isActive': this.props.active
+        })
+        
+        return (
+            <div className={ styles }></div>
+        )
+    }
+}
 
 
 class MenuButtonGroup extends React.Component {
@@ -65,6 +85,10 @@ class MenuButton extends React.Component {
 
 
 export default class Menu extends React.Component {
+
+    // Pure
+    shouldComponentUpdate = pureUpdate
+
     constructor( props ) {
         super( props )
     }
@@ -76,8 +100,11 @@ export default class Menu extends React.Component {
     }
 
     render() {
+        console.log( 'menu::render' )
+
         return (
             <nav className="Menu">
+                <MenuRunningIndicator active={ this.props.running } />
                 <MenuButtonGroup>
                     <MenuButton text="Start" action={ ACTIONS.START } />
                     <MenuButton text="Stop" action={ ACTIONS.STOP } />

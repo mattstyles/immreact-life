@@ -40,10 +40,11 @@ class App extends React.Component {
         })
     }
 
+    // @TODO the deref here keeps pure rendering working
     render() {
         return (
             <div className="container">
-                <Menu />
+                <Menu running={ appStore.cursor([ 'app', 'running' ]).deref() } />
                 <div className="main">
                     <Grid cells={ appStore.cursor( 'grid' ) } />
                 </div>
@@ -53,7 +54,6 @@ class App extends React.Component {
 }
 
 function render() {
-    console.log( 'main::render' )
     React.render( <App />, document.body )
 }
 

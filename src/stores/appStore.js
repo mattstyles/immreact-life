@@ -32,7 +32,9 @@ class AppStore {
 
         appState.create( this[ _state ], {
             grid: grid,
-            app: {}
+            app: {
+                running: false
+            }
         })
 
         // Next animation frame
@@ -53,6 +55,7 @@ class AppStore {
                     return
                 }
 
+                this.cursor( [ 'app', 'running' ] ).update( cursor => true )
                 this.tick()
                 return
             }
@@ -64,6 +67,7 @@ class AppStore {
 
                 raf.cancel( this.frame )
                 this.frame = null
+                this.cursor( [ 'app', 'running' ] ).update( cursor => false )
             }
         })
     }
