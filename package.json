@@ -70,7 +70,7 @@
     "chalk": "^1.0.0",
     "chokidar": "^1.0.1",
     "clean-css": "^3.2.9",
-    "eslint": "^0.21.0",
+    "eslint": "^6.6.0",
     "flowcheck": "^0.2.6",
     "ho-compiler": "^0.4.0",
     "ho-conformance": "^0.1.0",
